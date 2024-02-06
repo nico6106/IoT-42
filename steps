@@ -27,3 +27,13 @@ Erreur= WARNING: The vboxdrv kernel module is not loaded. Either there is no mod
 
 essayer sudo apt-get install --reinstall virtualbox
 
+
+commandes:
+- vagrant up
+- vagrant box list
+- vagrant ssh
+  - whoami
+
+
+link to save:
+- https://medium.com/@dangerhulk26022022/how-to-solve-kernel-panic-not-syncing-io-apic-timer-doesnt-work-bfffe323a1f5
