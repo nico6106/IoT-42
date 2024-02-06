@@ -1,0 +1,29 @@
+
+Basics:
+installer système (20Go)
+installer chrome
+installer git
+installer vscode
+
+
+1. installer vagrant 
+
+2. installer vmbox
+
+
+
+VBoxManage --version = erreur ?
+Erreur= WARNING: The vboxdrv kernel module is not loaded. Either there is no module
+         available for the current kernel (6.5.0-15-generic) or it failed to
+         load. Please recompile the kernel module and install it by
+
+           sudo /sbin/vboxconfig
+
+         You will not be able to start VMs until this problem is fixed.
+7.0.14r161095
+
+==> sudo apt-get install dkms build-essential linux-headers-`uname -r`
+==> sudo /sbin/vboxconfig
+
+essayer sudo apt-get install --reinstall virtualbox
+
