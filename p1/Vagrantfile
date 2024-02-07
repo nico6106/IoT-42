@@ -94,7 +94,7 @@ Vagrant.configure("2") do |config|
     end
 
     server.vm.provision "shell", inline: <<-SHELL
-      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644 --tls-san --node-ip 192.168.56.110 --node-external-ip 192.168.56.110 --bind-address 192.168.56.110 --token 12345" sh -s -
+      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644 --tls-san --node-ip 192.168.56.110 --bind-address 192.168.56.110 --token 12345" sh -s -
       apt update
       apt install net-tools
 
@@ -116,7 +116,7 @@ Vagrant.configure("2") do |config|
     end
 
     worker.vm.provision "shell", inline: <<-SHELL
-      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://192.168.56.110:6443 --node-ip 192.168.56.111 --node-external-ip 192.168.56.111 -t 12345" sh -s -
+      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://192.168.56.110:6443 --node-ip 192.168.56.111 --token 12345" sh -s -
       sudo ip link add eth1 type dummy && sudo ip addr add 192.168.56.111/24 dev eth1 && sudo ip link set eth1 up
     SHELL
   end
