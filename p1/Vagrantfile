@@ -84,36 +84,33 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "nlesageS" do |server|
     server.vm.hostname = "nlesageS"
-    server.vm.network "public_network", ip: "192.168.56.110"
+    server.vm.network "private_network", ip: "192.168.56.110"
 
-    server.vm.provider "virtualbox" do |vb|
-      vd.customize ["modifyvm", :id, "--name", "nlesageS"]
+    server.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--name", "nlesageS"]
       v.memory = 1024
       v.cpus = 1
     end
 
-    config.vm.provision "shell", inline: <<-SHELL
-      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -
+    server.vm.provision "shell", inline: <<-SHELL
+      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644 --tls-san --node-ip 192.168.56.110 --bind-address 192.168.56.110 --token 12345" sh -s -
+      apt update
+      apt install net-tools
     SHELL
   end
 
   config.vm.define "nlesageSW" do |worker|
     worker.vm.hostname = "nlesageSW"
-    worker.vm.network "public_network", ip: "192.168.56.111"
+    worker.vm.network "private_network", ip: "192.168.56.111"
 
-    worker.vm.provider "virtualbox" do |vb|
-      vd.customize ["modifyvm", :id, "--name", "nlesageSW"]
+    worker.vm.provider "virtualbox" do |v|
+      v.customize ["modifyvm", :id, "--name", "nlesageSW"]
       v.memory = 1024
       v.cpus = 1
     end
 
-    config.vm.provision "shell", inline: <<-SHELL
-      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent" sh -
+    worker.vm.provision "shell", inline: <<-SHELL
+      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server http://192.168.56.110:6443 --node-ip 192.168.56.111 --token 12345" sh -s -
     SHELL
   end
-
-
-  #config.vm.provision "shell", inline: <<-SHELL
-  #  curl -sfL https://get.k3s.io | sh -
-  #SHELL
 end
