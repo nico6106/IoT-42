@@ -34,6 +34,7 @@ commandes:
 - vagrant ssh
   - whoami
 
+- sudo journalctl -u k3s-agent --no-pager
 
 link to save:
 - https://medium.com/@dangerhulk26022022/how-to-solve-kernel-panic-not-syncing-io-apic-timer-doesnt-work-bfffe323a1f5

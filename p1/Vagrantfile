@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
     server.vm.provision "shell", inline: <<-SHELL
       sudo ufw disable
       sudo ufw allow 6443/tcp
-      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644 --node-ip 192.168.56.110" sh -s -
+      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --write-kubeconfig-mode=644 --node-ip 192.168.56.110" sh -
       
       sudo cat /var/lib/rancher/k3s/server/node-token > /vagrant/node-token
       sudo cp /etc/rancher/k3s/k3s.yaml /vagrant/k3s.yaml
@@ -41,9 +41,9 @@ Vagrant.configure("2") do |config|
     end
 
     worker.vm.provision "shell", inline: <<-SHELL
-      K3S_TOKEN=$(cat /vagrant/node-token)
+      export K3S_TOKEN=$(cat /vagrant/node-token)
       echo $K3S_TOKEN
-      curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://192.168.56.110:6443 --node-ip 192.168.56.111" K3S_TOKEN=${K3S_TOKEN} sh -s -
+      # curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://192.168.56.110:6443 --node-ip 192.168.56.111" K3S_TOKEN=${K3S_TOKEN} sh -s -
       
       apt update
       apt install net-tools
