@@ -1,3 +1,5 @@
+#! /bin/sh
+
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
@@ -17,7 +19,7 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 
 curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 
-k3d cluster create
+k3d cluster create --port-add "8888:31728@server:0"
 
 kubectl create namespace argocd
 kubectl create namespace dev
