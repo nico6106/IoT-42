@@ -1,0 +1,30 @@
+
+1. Installer gitlab
+
+sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
+#sudo apt-get install -y postfix
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
+sudo EXTERNAL_URL="http://my-host.internal" apt-get install gitlab-ee
+
+=> modifier fichier /etc/hosts pour que 127.0.0.1 corresponde a my-host.internal
+
+=> obtenir mdp: sudo cat /etc/gitlab/initial_root_password
+
+2. Installer Helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+
+3. configurer
+
+sudo k3d cluster create p3 --port "8888:31728@server:0" || error_exit "Failed to create k3d cluster"
+
+sudo kubectl create namespace argocd
+sudo kubectl create namespace dev
+sudo kubectl create namespace gitlab
+
+sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml || error_exit "Failed to apply ArgoCD manifest"
+
+sudo kubectl cluster-info
+
