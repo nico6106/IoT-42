@@ -30,6 +30,8 @@ voir cluster info => sudo kubectl cluster-info
 
 voir namespaces => sudo kubectl get namespace
 
+voir pods dans namespace => sudo kubectl get pods -n argocd
+
 
 4. hosts
 HOST_ENTRY="127.0.0.1   my-host.internal"
@@ -49,17 +51,16 @@ fi
 https://docs.gitlab.com/charts/installation/deployment.html.
 
 
-helm repo add gitlab https://charts.gitlab.io/
-helm repo update
-helm upgrade --install gitlab gitlab/gitlab \
+sudo helm repo add gitlab https://charts.gitlab.io/
+sudo helm repo update
+sudo helm upgrade --install gitlab gitlab/gitlab \
     -n gitlab \
     -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml \
     --set global.hosts.domain=my-host.internal \
-    --set global.hosts.externalIP=0.0.0.0 \
-    --set global.hosts.https=false \
     --timeout 600s
 
-
+    --set global.hosts.externalIP=0.0.0.0 \
+    --set global.hosts.https=false \
 sudo kubectl wait --for=condition=ready --timeout=1200s pod -l app=webservice -n gitlab
 
 echo -n "GITLAB PASSWORD : "
