@@ -18,13 +18,33 @@ chmod 700 get_helm.sh
 
 3. configurer
 
-sudo k3d cluster create p3 --port "8888:31728@server:0" || error_exit "Failed to create k3d cluster"
+sudo k3d cluster create p3 --port "8888:31728@server:0"
 
 sudo kubectl create namespace argocd
 sudo kubectl create namespace dev
 sudo kubectl create namespace gitlab
 
-sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml || error_exit "Failed to apply ArgoCD manifest"
+sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-sudo kubectl cluster-info
+voir cluster info => sudo kubectl cluster-info
+
+voir namespaces => sudo kubectl get namespace
+
+
+4. hosts
+HOST_ENTRY="127.0.0.1   my-host.internal"
+HOST_SEARCH="my-host.internal"
+HOST_FILE="/etc/hosts"
+
+if grep -q "$HOST_SEARCH" "$HOST_FILE"; then
+    echo "host exists"
+else
+    echo "$HOST_ENTRY" | sudo tee -a "$HOST_FILE"
+    echo "host added"
+fi
+
+
+5. configure helm
+
+https://docs.gitlab.com/charts/installation/deployment.html
 
