@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: http://my-host.internal/root/iot-42.git
+    repoURL: http://my-host.internal/root/iot-42
+    path: './'
     targetRevision: HEAD
-    path: manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
