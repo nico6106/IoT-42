@@ -57,7 +57,7 @@ sudo helm upgrade --install gitlab gitlab/gitlab \
     -n gitlab \
     -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml \
     --set global.hosts.domain=my-host.internal \
-    --set global.hosts.externalIP=0.0.0.0 \
+    --set global.hosts.externalIP=127.0.0.1 \
     --set global.hosts.https=false \
     --timeout 600s
 
@@ -70,3 +70,5 @@ echo -n "GITLAB PASSWORD : "
 
 # argocd localhost:80 or http://gitlab.k3d.gitlab.com
 sudo kubectl port-forward svc/gitlab-webservice-default -n gitlab 80:8181 2>&1 >/dev/null &
+
+sudo kubectl apply -f ./confs/deploy.yaml
