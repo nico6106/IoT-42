@@ -7,22 +7,22 @@ command_exists() {
 
 #install gitlab
 sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
-curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
-sudo EXTERNAL_URL="http://my-host.internal" apt-get install gitlab-ee
+# curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
+# sudo EXTERNAL_URL="http://my-host.internal" apt-get install gitlab-ee
 
-HOST_ENTRY="127.0.0.1   my-host.internal"
-HOST_SEARCH="my-host.internal"
-HOST_FILE="/etc/hosts"
+# HOST_ENTRY="127.0.0.1   my-host.internal"
+# HOST_SEARCH="my-host.internal"
+# HOST_FILE="/etc/hosts"
 
-if grep -q "$HOST_SEARCH" "$HOST_FILE"; then
-    echo "host exists"
-else
-    echo "$HOST_ENTRY" | sudo tee -a "$HOST_FILE"
-    echo "host added"
-fi
+# if grep -q "$HOST_SEARCH" "$HOST_FILE"; then
+#     echo "host exists"
+# else
+#     echo "$HOST_ENTRY" | sudo tee -a "$HOST_FILE"
+#     echo "host added"
+# fi
 
-echo "MDP = "
-sudo cat /etc/gitlab/initial_root_password
+# echo "MDP = "
+# sudo cat /etc/gitlab/initial_root_password
 
 #install helm
 if command_exists helm; then
