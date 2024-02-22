@@ -87,10 +87,15 @@ sudo helm upgrade --install gitlab gitlab/gitlab \
 #waiting for webservice to be running
 sudo kubectl wait --for=condition=ready --timeout=1200s pod -l app=webservice -n gitlab
 
+# argocd localhost:80 or http://my-host.internal
+sudo kubectl port-forward svc/gitlab-webservice-default -n gitlab 80:8181 2>&1 >/dev/null &
+
 #get PWD for gitlab
 echo -n "GITLAB PASSWORD : "
 sudo kubectl get secret gitlab-gitlab-initial-root-password -n gitlab -o jsonpath="{.data.password}" | base64 --decode
 
-# argocd localhost:80 or http://my-host.internal
-sudo kubectl port-forward svc/gitlab-webservice-default -n gitlab 80:8181 2>&1 >/dev/null &
+#showing ssh
+cd
+cd .shh
+cat id_rsa.pub
 
