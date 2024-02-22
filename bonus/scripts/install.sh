@@ -96,6 +96,6 @@ sudo kubectl get secret gitlab-gitlab-initial-root-password -n gitlab -o jsonpat
 
 #showing ssh
 cd
-cd .shh
+cd .ssh
 cat id_rsa.pub
 
