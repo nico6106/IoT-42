@@ -21,8 +21,8 @@ else
     echo "host added"
 fi
 
-echo "MDP = "
-sudo cat /etc/gitlab/initial_root_password
+# echo "MDP = "
+# sudo cat /etc/gitlab/initial_root_password
 
 #install helm
 if command_exists helm; then
