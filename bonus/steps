@@ -75,3 +75,12 @@ sudo kubectl apply -f ./confs/deploy.yaml
 
 sudo kubectl port-forward svc/argocd-server -n argocd 9393:443 >/dev/null &
 sudo kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+
+
+#TO DO
+- lancer script.sh
+- ouvrir http://my-host.internal
+- creer repo "iot-42" public depuis root
+- ajouter SSH dans gitlab
+- copier fichiers deployment.yaml + service.yaml dans iot-42 repo
+- lancer final.sh
