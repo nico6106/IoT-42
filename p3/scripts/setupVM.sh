@@ -30,28 +30,21 @@ else
   echo "Please log out and log back in to apply Docker group changes, or run 'newgrp docker'."
 fi
 
-echo "Installing kubectl..."
-KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
-curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" || error_exit "Failed to download kubectl"
-chmod +x ./kubectl
-sudo mv ./kubectl /usr/local/bin/kubectl
-
-echo "Installing k3d..."
-curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash || error_exit "Failed to install k3d"
-
-echo "Creating k3d cluster..."
-k3d cluster create p3 --port "8888:31728@server:0" || error_exit "Failed to create k3d cluster"
-
-echo "Deploying ArgoCD and application..."
-kubectl create namespace argocd || error_exit "Failed to create namespace 'argocd'"
-kubectl create namespace dev || error_exit "Failed to create namespace 'dev'"
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml || error_exit "Failed to apply ArgoCD manifest"
-
-if [ -f "confs/argocd.yaml" ]; then
-  kubectl apply -f ./confs/argocd.yaml || error_exit "Failed to apply 'confs/argocd.yaml'"
+if command_exists kubectl; then
+  echo "kubectl already installed. Skipping kubectl installation."
 else
-  echo "Warning: 'confs/argocd.yaml' not found. Skipping application deployment."
+    echo "Installing kubectl..."
+    KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+    curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" || error_exit "Failed to download kubectl"
+    chmod +x ./kubectl
+    sudo mv ./kubectl /usr/local/bin/kubectl
 fi
 
-echo "Setup complete. Verify the deployment status with 'kubectl get pods -n argocd' and 'kubectl get pods -n dev'"
-
+#install k3d
+if command_exists k3d; then
+  echo "k3d already installed. Skipping k3d installation."
+else
+    echo "Installing k3d"
+    curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash || error_exit "Failed to install k3d"
+    echo "k3d Installed"
+fi

@@ -1,10 +1,12 @@
 #Starts the whole app
 all:
-	./scripts/new_setup.sh
+	./scripts/setupVM.sh
 
 #Reloads the whole app
-re: clean
-	./scripts/new_setup.sh
+re: clean launch
+
+launch:
+	./scripts/launch.sh
 
 clean:
 	./scripts/cleanup.sh
