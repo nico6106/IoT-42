@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# Function to handle errors
 error_exit() {
   echo "Error: $1" >&2
   exit 1
