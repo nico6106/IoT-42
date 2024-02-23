@@ -6,7 +6,7 @@ error_exit() {
 }
 
 echo "Creating k3d cluster..."
-k3d cluster create p3 --port "8888:31728@server:0" || error_exit "Failed to create k3d cluster"
+k3d cluster create bonus --port "8888:31728@server:0" || error_exit "Failed to create k3d cluster"
 
 echo "Deploying ArgoCD and application..."
 kubectl create namespace argocd || error_exit "Failed to create namespace 'argocd'"

@@ -6,6 +6,6 @@ error_exit() {
 }
 
 echo "Deleting k3d cluster..."
-k3d cluster delete p3 || error_exit "Failed to delete k3d cluster"
+k3d cluster delete bonus || error_exit "Failed to delete k3d cluster"
 
 echo "Cleanup complete..."
