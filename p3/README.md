@@ -18,7 +18,6 @@ If these tools are not installed, the `setupVM.sh` script will attempt to instal
 
    ```sh
    make
-   newgrp docker
     ```
 
 2. **Add user permissions**
