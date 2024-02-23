@@ -7,6 +7,8 @@ command_exists() {
 
 #install gitlab
 sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
+sudo apt install -y apt-transport-https software-properties-common
+
 # curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
 # sudo EXTERNAL_URL="http://my-host.internal" apt-get install gitlab-ee
 
