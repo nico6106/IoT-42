@@ -6,7 +6,7 @@ error_exit() {
 }
 pwd
 if [ -f "./confs/deploy.yaml" ]; then
-  kubectl apply -f ./confs/deploy.yaml || error_exit "Failed to apply './confs/deploy.yaml'"
+  sudo kubectl apply -f ./confs/deploy.yaml || error_exit "Failed to apply './confs/deploy.yaml'"
 else
   echo "Warning: 'confs/deploy.yaml' not found. Skipping application deployment."
   exit
