@@ -93,9 +93,11 @@ sudo kubectl port-forward svc/gitlab-webservice-default -n gitlab 80:8181 2>&1 >
 #get PWD for gitlab
 echo -n "GITLAB PASSWORD : "
 sudo kubectl get secret gitlab-gitlab-initial-root-password -n gitlab -o jsonpath="{.data.password}" | base64 --decode
+echo ""
+echo -n "cle ssh :"
 
 #showing ssh
 cd
 cd .ssh
 cat id_rsa.pub
-
+echo ""
