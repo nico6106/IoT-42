@@ -56,16 +56,20 @@ else
     curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" || error_exit "Failed to download kubectl"
     chmod +x ./kubectl
     sudo mv ./kubectl /usr/local/bin/kubectl
+    echo "Kubectl installed"
 fi
 
 #install k3d
 if command_exists k3d; then
   echo "k3d already installed. Skipping k3d installation."
 else
+    echo "Installing k3d"
     curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
+    echo "k3d Installed"
 fi
 
 #configure k3d
+echo "Configuring k3d"
 sudo k3d cluster create p3 --port "8888:31728@server:0"
 sudo kubectl create namespace argocd
 sudo kubectl create namespace dev
@@ -74,6 +78,7 @@ sudo kubectl create namespace gitlab
 sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 #configure helm
+echo "Configuring helm"
 sudo helm repo add gitlab https://charts.gitlab.io/
 sudo helm repo update
 sudo helm upgrade --install gitlab gitlab/gitlab \
@@ -85,9 +90,11 @@ sudo helm upgrade --install gitlab gitlab/gitlab \
     --timeout 600s
 
 #waiting for webservice to be running
+echo "Waiting for app=webservice"
 sudo kubectl wait --for=condition=ready --timeout=1200s pod -l app=webservice -n gitlab
 
 # argocd localhost:80 or http://my-host.internal
+echo "forwarding port"
 sudo kubectl port-forward svc/gitlab-webservice-default -n gitlab 80:8181 2>&1 >/dev/null &
 
 #get PWD for gitlab
