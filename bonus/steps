@@ -80,6 +80,7 @@ sudo kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.dat
 #TO DO
 - lancer script.sh
 - executer 'newgrp docker'
+- verifier `groups`
 - ouvrir http://my-host.internal
 - creer repo "iot-42" public depuis root
 - ajouter SSH dans gitlab
