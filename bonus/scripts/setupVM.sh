@@ -5,12 +5,16 @@ command_exists() {
   command -v "$@" >/dev/null 2>&1
 }
 
-#install gitlab
-sudo apt-get install -y curl openssh-server ca-certificates tzdata perl
-sudo apt install -y apt-transport-https software-properties-common
+# Function to handle errors
+error_exit() {
+  echo "Error: $1" >&2
+  exit 1
+}
 
-# curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
-# sudo EXTERNAL_URL="http://my-host.internal" apt-get install gitlab-ee
+echo "Updating system packages..."
+sudo apt update || error_exit "Failed to update packages"
+sudo apt install -y curl openssh-server ca-certificates tzdata perl apt-transport-https software-properties-common || error_exit "Failed to install prerequisites"
+
 
 HOST_ENTRY="127.0.0.1   my-host.internal"
 HOST_SEARCH="my-host.internal"
@@ -23,20 +27,14 @@ else
     echo "host added"
 fi
 
-# echo "MDP = "
-# sudo cat /etc/gitlab/initial_root_password
-
-#install helm
 if command_exists helm; then
   echo "helm already installed. Skipping helm installation."
 else
-    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 || error_exit "Failed to download helm"
     chmod 700 get_helm.sh
     ./get_helm.sh
 fi
 
-
-#install docker
 if command_exists docker; then
   echo "Docker already installed. Skipping Docker installation."
 else
@@ -49,7 +47,6 @@ else
   echo "Please log out and log back in to apply Docker group changes, or run 'newgrp docker'."
 fi
 
-#install kubectl
 if command_exists kubectl; then
   echo "kubectl already installed. Skipping kubectl installation."
 else
@@ -58,7 +55,6 @@ else
     curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" || error_exit "Failed to download kubectl"
     chmod +x ./kubectl
     sudo mv ./kubectl /usr/local/bin/kubectl
-    echo "Kubectl installed"
 fi
 
 #install k3d
@@ -66,6 +62,6 @@ if command_exists k3d; then
   echo "k3d already installed. Skipping k3d installation."
 else
     echo "Installing k3d"
-    curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
+    curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash || error_exit "Failed to install k3d"
     echo "k3d Installed"
 fi
